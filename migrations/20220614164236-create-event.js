@@ -22,15 +22,15 @@ module.exports = {
       },
       description: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       theme: {
         allowNull: false,
         type: Sequelize.STRING
       },
       status: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'unpublished'
       },
       organizerId: {
         allowNull: false,

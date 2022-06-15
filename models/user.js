@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.Checkout, {foreignKey : 'userId'})
+      User.belongsToMany(models.Event, {through:models.userEvent})
+      User.hasMany(models.userEvent, {foreignKey : 'userId'})
+      User.hasMany(models.Transaction, {foreignKey : 'userId'})
     }
   }
   User.init({
@@ -45,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: {
-          msg: 'User name cannot empty'
+          msg: 'User email cannot empty'
         },
         isEmail: {
           msg: 'Invalid email format'

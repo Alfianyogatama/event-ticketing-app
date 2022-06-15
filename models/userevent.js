@@ -11,23 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Checkout.belongsTo(models.User)
-      Checkout.belongsTo(models.Event)
+      userEvent.belongsTo(models.User)
+      userEvent.belongsTo(models.Event)
     }
   }
   userEvent.init({
-    eventId: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER,
-    ticketClass: {
-      type : DataTypes.STRING,
-      allowNull: false,
+    eventId: {
+      type: DataTypes.INTEGER,
+      allowNull : false,
       validate: {
-        isIn: {
-          args: ['Gold', 'Platinum', 'Silver'],
-          msg: 'Class must be one of : Gold/Platinum/Silver'
-        }
+        notEmpty: {
+          msg: 'Event id is required'
+        },
+        notNull: 'Event id is required'
       }
     },
+    userId: DataTypes.INTEGER,
+    
   }, {
     sequelize,
     modelName: 'userEvent',
