@@ -11,13 +11,56 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Checkout, {foreignKey : 'userId'})
     }
   }
   User.init({
-    fullName: DataTypes.STRING,
-    phoneNumber: DataTypes.STRING,
-    email: DataTypes.STRING,
-    birthdayDate: DataTypes.DATEONLY
+    fullName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'User name cannot empty'
+        },
+        isAlphanumeric: {
+          msg: 'User name must be a valid letters charracter'
+        }
+      }
+    },
+    phoneNumber: {
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate: {
+        notEmpty: {
+          msg: 'User name cannot empty'
+        },
+        is: {
+          args : ['/^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/'],
+          msg: 'Invalid phone number'
+        }
+      }
+    },
+    email: {
+      type:DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: {
+          msg: 'User name cannot empty'
+        },
+        isEmail: {
+          msg: 'Invalid email format'
+        }
+      }
+    },
+    birthdayDate: {
+      type : DataTypes.DATEONLY,
+      allowNull: false,
+      validate: {
+        isDate: {
+          msg: 'Invalid string date format'
+        }
+      }
+    }
   }, {
     sequelize,
     modelName: 'User',
