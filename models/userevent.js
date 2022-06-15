@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Checkout extends Model {
+  class userEvent extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,18 +11,26 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      userEvent.belongsTo(models.User)
+      userEvent.belongsTo(models.Event)
     }
   }
-  Checkout.init({
-    eventId: DataTypes.INTEGER,
+  userEvent.init({
+    eventId: {
+      type: DataTypes.INTEGER,
+      allowNull : false,
+      validate: {
+        notEmpty: {
+          msg: 'Event id is required'
+        },
+        notNull: 'Event id is required'
+      }
+    },
     userId: DataTypes.INTEGER,
-    ticketClass: DataTypes.STRING,
-    nominal: DataTypes.INTEGER,
-    paymentDate: DataTypes.DATE,
-    paymentStatus: DataTypes.DATE
+    
   }, {
     sequelize,
-    modelName: 'Checkout',
+    modelName: 'userEvent',
   });
-  return Checkout;
+  return userEvent;
 };

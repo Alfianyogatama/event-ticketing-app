@@ -11,16 +11,54 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // Ticket.belongsTo(models.Event)
     }
   }
   Ticket.init({
-    goldQuotes: DataTypes.INTEGER,
-    goldPrice: DataTypes.INTEGER,
-    platinumQuotes: DataTypes.INTEGER,
-    platinumPrice: DataTypes.INTEGER,
-    silverQuotes: DataTypes.INTEGER,
-    silverPrice: DataTypes.INTEGER,
-    eventId: DataTypes.INTEGER
+    goldQuotes: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isInt : 'Quotes must be a number'
+      }
+    },
+    goldPrice: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isInt : 'Price must be a number'
+      }
+    },
+    platinumQuotes: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isInt : 'Quotes must be a number'
+      }
+    },
+    platinumPrice: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isInt : 'Price must be a number'
+      }
+    },
+    silverQuotes: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isInt : 'Quotes must be a number'
+      }
+    },
+    silverPrice: {
+      type:DataTypes.INTEGER,
+      validate: {
+        isInt : 'Price must be a number'
+      }
+    },
+    eventId: {
+      type:DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: 'Event id is required',
+        notNull: 'Event id is required'
+      }
+    },
   }, {
     sequelize,
     modelName: 'Ticket',

@@ -9,27 +9,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       eventDate: {
-        type: Sequelize.DATE
-      },
-      publishedDate: {
+        allowNull: false,
         type: Sequelize.DATE
       },
       posterUrl: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       description: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.TEXT
       },
-      eventType: {
+      theme: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        defaultValue: 'unpublished'
       },
       organizerId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model:'Organizers',
