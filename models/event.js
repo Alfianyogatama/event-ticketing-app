@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**
@@ -11,86 +9,89 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Event.belongsToMany(models.User, {through:models.userEvent})
-      Event.hasMany(models.userEvent, {foreignKey:'eventId'})
-      Event.hasMany(models.Transaction, {foreignKey:'eventId'})
+      Event.belongsToMany(models.User, { through: models.userEvent })
+      Event.hasMany(models.userEvent, { foreignKey: 'eventId' })
+      Event.hasMany(models.transaction, { foreignKey: 'eventId' })
     }
   }
-  Event.init({
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notEmpty: {
-          msg: 'Event name is required'
-        },
-        notNull: 'Event name is required'
+  Event.init(
+    {
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event name is required'
+          },
+          notNull: 'Event name is required'
+        }
+      },
+      eventDate: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event date is required'
+          },
+          notNull: 'Event date is required'
+        }
+      },
+      posterUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event poster is required'
+          },
+          notNull: 'Event poster is required',
+          isUrl: 'Invalid poster url'
+        }
+      },
+      description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event description is required'
+          },
+          notNull: 'Event description is required'
+        }
+      },
+      theme: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event theme is required'
+          },
+          notNull: 'Event theme is required'
+        }
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event status is required'
+          },
+          notNull: 'Event status is required'
+        }
+      },
+      organizerId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event organizer id is required'
+          },
+          notNull: 'Event organizer id is required'
+        }
       }
     },
-    eventDate: {
-      type : DataTypes.DATE,
-      allowNull : false,
-      validate: {
-        notEmpty: {
-          msg: 'Event date is required'
-        },
-        notNull: 'Event date is required'
-      }
-    },
-    posterUrl: {
-      type:DataTypes.STRING,
-      allowNull:false,
-      validate: {
-        notEmpty: {
-          msg: 'Event poster is required'
-        },
-        notNull: 'Event poster is required',
-        isUrl: 'Invalid poster url'
-      }
-    },
-    description: {
-      type:DataTypes.TEXT,
-      allowNull:false,
-      validate: {
-        notEmpty: {
-          msg: 'Event description is required'
-        },
-        notNull: 'Event description is required'
-      }
-    },
-    theme: {
-      type: DataTypes.STRING,
-      allowNull:false,
-      validate: {
-        notEmpty: {
-          msg: 'Event theme is required'
-        },
-        notNull: 'Event theme is required'
-      }
-    },
-    status: {
-      type:DataTypes.STRING,
-      allowNull:false,
-      validate: {
-        notEmpty: {
-          msg: 'Event status is required'
-        },
-        notNull: 'Event status is required'
-      }
-    },
-    organizerId: {
-      type:DataTypes.INTEGER,
-      allowNull:false,
-      validate: {
-        notEmpty: {
-          msg: 'Event organizer id is required'
-        },
-        notNull: 'Event organizer id is required'
-      }
+    {
+      sequelize,
+      modelName: 'Event'
     }
-  }, {
-    sequelize,
-    modelName: 'Event',
-  });
-  return Event;
-};
+  )
+  return Event
+}

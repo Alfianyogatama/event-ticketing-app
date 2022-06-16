@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class userEvent extends Model {
     /**
@@ -15,22 +13,24 @@ module.exports = (sequelize, DataTypes) => {
       userEvent.belongsTo(models.Event)
     }
   }
-  userEvent.init({
-    eventId: {
-      type: DataTypes.INTEGER,
-      allowNull : false,
-      validate: {
-        notEmpty: {
-          msg: 'Event id is required'
-        },
-        notNull: 'Event id is required'
-      }
+  userEvent.init(
+    {
+      eventId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: 'Event id is required'
+          },
+          notNull: 'Event id is required'
+        }
+      },
+      userId: DataTypes.INTEGER
     },
-    userId: DataTypes.INTEGER,
-    
-  }, {
-    sequelize,
-    modelName: 'userEvent',
-  });
-  return userEvent;
-};
+    {
+      sequelize,
+      modelName: 'userEvent'
+    }
+  )
+  return userEvent
+}

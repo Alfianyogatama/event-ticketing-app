@@ -2,6 +2,7 @@
   "development": {
     "username": "postgres",
     "password": "Password@123",
+    "loggins": true,
     "database": "ticketingdb",
     "host": "127.0.0.1",
     "dialect": "postgres"
@@ -21,3 +22,4 @@
     "dialect": "postgres"
   }
 }
+
