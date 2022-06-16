@@ -1,5 +1,6 @@
 'use strict'
 const { Model } = require('sequelize')
+const { hashPassword } = require('./../helper/hash')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -22,10 +23,10 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           notEmpty: {
             msg: 'User name cannot empty'
-          },
-          isAlphanumeric: {
-            msg: 'User name must be a valid letters charracter'
           }
+          // isAlpha: {
+          //   msg: 'User name must be a valid letters charracter'
+          // }
         }
       },
       phoneNumber: {
@@ -35,12 +36,13 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             msg: 'User name cannot empty'
           },
-          is: {
-            args: [
-              '/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-s.]{0,1}[0-9]{4}$/'
-            ],
-            msg: 'Invalid phone number'
-          }
+          notNull: 'User name is required'
+          // is: {
+          //   args: [
+          //     '/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-s.]{0,1}[0-9]{4}$/'
+          //   ],
+          //   msg: 'Invalid phone number'
+          // }
         }
       },
       email: {
@@ -83,11 +85,42 @@ module.exports = (sequelize, DataTypes) => {
             msg: 'Gender must be one of : male or female'
           }
         }
+      },
+      userType: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: 'User type is required',
+          notNull: 'User type is required',
+          isIn: {
+            args: [['organizer', 'participant']],
+            msg: 'User type must be one of : participant or organizer'
+          }
+        }
+      },
+      address: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        validate: {
+          notEmpty: 'address is required',
+          notNull: 'address is required'
+        }
+      },
+      profilePhotoUrl: {
+        type: DataTypes.STRING,
+        validate: {
+          isUrl: { msg: 'Invalid profile photo url' }
+        }
       }
     },
     {
       sequelize,
-      modelName: 'User'
+      modelName: 'User',
+      hooks: {
+        beforeCreate: (user) => {
+          user.password = hashPassword(user.password) // proses hashing pass user sebelum masuk db
+        }
+      }
     }
   )
   return User
