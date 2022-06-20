@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Events', {
@@ -30,14 +30,14 @@ module.exports = {
       },
       status: {
         type: Sequelize.STRING,
-        defaultValue: 'unpublished'
+        defaultValue: 'created'
       },
       organizerId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
-          model:'Organizers',
-          key:'id'
+          model: 'Users',
+          key: 'id'
         }
       },
       createdAt: {
@@ -48,9 +48,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Events');
+    await queryInterface.dropTable('Events')
   }
-};
+}

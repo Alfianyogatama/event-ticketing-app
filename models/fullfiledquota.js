@@ -1,7 +1,7 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class userEvent extends Model {
+  class fullfiledQuota extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,28 +9,25 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      userEvent.belongsTo(models.User, { foreignKey: 'userId' })
-      userEvent.belongsTo(models.Event, { foreignKey: 'eventId' })
+      fullfiledQuota.belongsTo(models.Event, { foreignKey: 'event_id' })
     }
   }
-  userEvent.init(
+  fullfiledQuota.init(
     {
-      eventId: {
+      gold: { type: DataTypes.INTEGER, defaultValue: 0 },
+      silver: { type: DataTypes.INTEGER, defaultValue: 0 },
+      platinum: { type: DataTypes.INTEGER, defaultValue: 0 },
+      event_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Event id is required'
-          },
-          notNull: 'Event id is required'
-        }
-      },
-      userId: DataTypes.INTEGER
+        validate: { notNull: 'Event id is required' }
+      }
     },
     {
       sequelize,
-      modelName: 'userEvent'
+      modelName: 'fullfiledQuota'
     }
   )
-  return userEvent
+  return fullfiledQuota
 }
+

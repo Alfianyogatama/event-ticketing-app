@@ -1,42 +1,30 @@
-'use strict';
+'use strict'
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Tickets', {
+    await queryInterface.createTable('fullfiledQuota', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      goldQuotes: {
+      gold: {
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        defualtValue: 0
       },
-      goldPrice: {
+      silver: {
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        defualtValue: 0
       },
-      platinumQuotes: {
+      platinum: {
         type: Sequelize.INTEGER,
-        defaultValue: 0
+        defualtValue: 0
       },
-      platinumPrice: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      silverQuotes: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      silverPrice: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
-      },
-      eventId: {
+      event_id: {
         type: Sequelize.INTEGER,
         references: {
           model: 'Events',
-          key:'id'
+          key: 'id'
         }
       },
       createdAt: {
@@ -47,9 +35,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    });
+    })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Tickets');
+    await queryInterface.dropTable('fullfiledQuota')
   }
-};
+}
+
