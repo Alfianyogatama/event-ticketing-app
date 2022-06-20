@@ -2,13 +2,13 @@
 
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.addColumn('Users', 'userType', {
+    return queryInterface.addColumn('organizers', 'password', {
       type: Sequelize.STRING
     })
   },
 
   async down(queryInterface, Sequelize) {
-    return queryInterface.removeColumn('Users', 'userType', {})
+    return queryInterface.removeColumn('organizers', 'password', {})
   }
 }
 

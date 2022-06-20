@@ -1,56 +1,37 @@
-const { User } = require('./../models')
+const { organizer: Organizer } = require('./../models')
 const { comparePassword } = require('./../helper/hash')
 const { signToken } = require('./../helper/authToken')
-const res = require('express/lib/response')
-class Controller {
-  static async userFindOne(matcher) {
-    if (!matcher) return { status: false }
-    const user = User.findOne(matcher)
-    if (!user) return false
-    return { data: user }
-  }
 
+class Controller {
   static async register(req, res, next) {
     try {
-      const {
-        fullName,
-        phoneNumber,
-        email,
-        birthdayDate,
-        password,
-        gender,
-        address,
-        profilePhotoUrl
-      } = req.body
+      const { name, phoneNumber, email, address, logoUrl, password } = req.body
 
-      const user = await User.findOne({
+      const user = await Organizer.findOne({
         where: { email }
       })
-      // console.log(req.body)
-      // console.log(user)
+
       if (user) throw { code: 400, message: 'User already registered' }
 
-      const newUser = await User.create({
-        fullName,
+      const newOrganizer = await Organizer.create({
+        name,
         phoneNumber,
         email,
-        birthdayDate,
-        password,
-        gender,
         address,
-        profilePhotoUrl
+        logoUrl,
+        password
       })
 
-      if (newUser) {
+      if (newOrganizer) {
         const payload = {
-          id: newUser.id,
-          name: newUser.fullName,
-          email: newUser.email
+          id: newOrganizer.id,
+          name: newOrganizer.name,
+          mail: newOrganizer.email
         }
         const token = signToken({
           ...payload
         })
-        const { userId, ...result } = payload
+        const { id, ...result } = payload
 
         res.status(201).json({
           success: true,
@@ -67,22 +48,22 @@ class Controller {
   static async login(req, res, next) {
     try {
       const { email, password: inputPass } = req.body
-      const user = await User.findOne({ where: { email } })
+      const organizer = await Organizer.findOne({ where: { email } })
 
       let code = 401
       let message = 'Wrong email/password'
 
-      if (!user) throw { message }
-      const password = comparePassword(inputPass, user.password)
-
+      if (!organizer) throw { code, message }
+      console.log(inputPass, organizer.password)
+      const password = comparePassword(inputPass, organizer.password)
       if (!password) throw { message }
       const payload = {
-        id: user.id,
-        name: user.fullName,
-        email: user.email
+        id: organizer.id,
+        name: organizer.name,
+        email: organizer.email
       }
       const token = signToken(payload)
-      const { userId, ...result } = payload
+      const { id, ...result } = payload
       res.status(200).json({
         success: true,
         message: 'Succes login',
@@ -92,6 +73,7 @@ class Controller {
         }
       })
     } catch (err) {
+      console.error(err)
       next(err)
     }
   }

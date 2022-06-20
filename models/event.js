@@ -1,5 +1,7 @@
 'use strict'
 const { Model } = require('sequelize')
+const organizer = require('./organizer')
+
 module.exports = (sequelize, DataTypes) => {
   class Event extends Model {
     /**
@@ -10,8 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Event.belongsToMany(models.User, { through: models.userEvent })
-      Event.hasMany(models.userEvent, { foreignKey: 'eventId' })
-      Event.hasMany(models.transaction, { foreignKey: 'eventId' })
+      Event.hasMany(models.userEvent)
+      Event.hasMany(models.transaction)
+      Event.hasOne(models.fullfiledQuota, { foreignKey: 'event_id' })
+      Event.belongsTo(models.organizer, { foreignKey: 'organizerId' })
     }
   }
   Event.init(
@@ -70,11 +74,16 @@ module.exports = (sequelize, DataTypes) => {
       status: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'created',
         validate: {
           notEmpty: {
             msg: 'Event status is required'
           },
           notNull: 'Event status is required'
+          // isIn: {
+          //   args: ['created', 'published', 'unpublished', 'done'],
+          //   msg: 'Status must be one of : created, published, unpublished, done'
+          // }
         }
       },
       organizerId: {
@@ -91,7 +100,28 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Event'
+      // hooks: {
+      //   afterCreate: (data, options) => {
+      //     sequelize.models.fullfiledQuota
+      //       .create({
+      //         eventId: data.id
+      //       })
+      //       .catch((_) => {
+      //         throw new Error()
+      //       })
+      //   }
+      // }
     }
   )
+
+  Event.afterCreate(async (data, options) => {
+    await sequelize.models.fullfiledQuota.create({
+      gold: 0,
+      platinum: 0,
+      silver: 0,
+      event_id: data.id
+    })
+  })
+
   return Event
 }

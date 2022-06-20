@@ -1,7 +1,9 @@
 'use strict'
-const { Model } = require('sequelize')
+const { Model, STRING } = require('sequelize')
+const { hashPassword } = require('./../helper/hash')
+
 module.exports = (sequelize, DataTypes) => {
-  class Organizer extends Model {
+  class organizer extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,71 +11,49 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Organizer.hasMany(models.Event, { foreignKey: 'organizerId' })
+      organizer.hasMany(models.Event)
     }
   }
-  Organizer.init(
+  organizer.init(
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Organizer name cannot empty'
-          }
+          notEmpty: { msg: 'Name is required' },
+          notNull: { msg: 'Name is required' }
         }
       },
       phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Organizer phone is required'
-          },
-          is: {
-            args: [
-              '/^[(]{0,1}[0-9]{3}[)]{0,1}[-s.]{0,1}[0-9]{3}[-s.]{0,1}[0-9]{4}$/'
-            ],
-            msg: 'Invalid phone number'
-          }
+          notEmpty: { msg: 'Phone number is required' },
+          notNull: { msg: 'Phone number is required' }
         }
       },
       email: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
-            msg: 'Organizer email is required'
-          },
-          isEmail: {
-            msg: 'Invalid email format'
-          }
+          notEmpty: { msg: 'Email is required' },
+          notNull: { msg: 'Email is required' }
         }
       },
-      address: {
-        type: DataTypes.STRING,
-        validate: {
-          notEmpty: {
-            msg: 'Organizer address is required'
-          }
-        }
-      },
-      logoUrl: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: {
-            msg: 'Event organizer logo is required'
-          },
-          notNull: 'Event organizer logo is required',
-          isUrl: 'Invalid logo url'
-        }
-      }
+      address: DataTypes.TEXT,
+      logoUrl: DataTypes.STRING,
+      password: DataTypes.STRING
     },
     {
       sequelize,
-      modelName: 'Organizer'
+      modelName: 'organizer',
+      hooks: {
+        beforeCreate: (input) => {
+          input.password = hashPassword(input.password) // proses hashing pass user sebelum masuk db
+        }
+      }
     }
   )
-  return Organizer
+  return organizer
 }
+

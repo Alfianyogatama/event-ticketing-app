@@ -9,8 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      transaction.belongsTo(models.User)
-      transaction.belongsTo(models.Event)
+      transaction.belongsTo(models.User, { foreignKey: 'userId' })
+      transaction.belongsTo(models.Event, { foreignKey: 'eventId' })
     }
   }
   transaction.init(

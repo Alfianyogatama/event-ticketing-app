@@ -1,14 +1,15 @@
 "use strict";
-
+const { hashPassword } = require("./../helper/hash");
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.bulkInsert("Organizers", [
+    return queryInterface.bulkInsert("organizers", [
       {
         name: "Tortor Nunc Commodo Corporation",
         phoneNumber: "1-446-802-8767",
         email: "dolor.egestas.rhoncus@google.org",
         address: "893-3551 Ligula. St.",
-        logo_url: "https://naver.com",
+        logoUrl: "https://naver.com",
+        password: hashPassword("123456"),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -17,7 +18,8 @@ module.exports = {
         phoneNumber: "1-892-646-2969",
         email: "condimentum.donec@icloud.ca",
         address: "Ap #280-3493 Adipiscing Street",
-        logo_url: "https://cnn.com",
+        logoUrl: "https://cnn.com",
+        password: hashPassword("123456"),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -26,7 +28,8 @@ module.exports = {
         phoneNumber: "1-854-875-8086",
         email: "amet.risus@icloud.com",
         address: "Ap #539-1534 Blandit. Avenue",
-        logo_url: "https://google.com",
+        logoUrl: "https://google.com",
+        password: hashPassword("123456"),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -35,7 +38,8 @@ module.exports = {
         phoneNumber: "1-468-917-4830",
         email: "auctor.mauris.vel@google.org",
         address: "Ap #459-9201 Ultricies St.",
-        logo_url: "https://walmart.com",
+        logoUrl: "https://walmart.com",
+        password: hashPassword("123456"),
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -44,7 +48,8 @@ module.exports = {
         phoneNumber: "(717) 765-8866",
         email: "a.ultricies@protonmail.net",
         address: "6346 Praesent Rd.",
-        logo_url: "https://naver.com",
+        logoUrl: "https://naver.com",
+        password: hashPassword("123456"),
         createdAt: new Date(),
         updatedAt: new Date(),
       },

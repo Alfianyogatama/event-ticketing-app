@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.belongsToMany(models.Event, { through: models.userEvent })
-      User.hasMany(models.userEvent, { foreignKey: 'userId' })
-      User.hasMany(models.transaction, { foreignKey: 'userId' })
+      User.hasMany(models.userEvent)
+      User.hasMany(models.transaction)
     }
   }
   User.init(
@@ -86,18 +86,18 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       },
-      userType: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          notEmpty: 'User type is required',
-          notNull: 'User type is required',
-          isIn: {
-            args: [['organizer', 'participant']],
-            msg: 'User type must be one of : participant or organizer'
-          }
-        }
-      },
+      // userType: {
+      //   type: DataTypes.STRING,
+      //   allowNull: false,
+      //   validate: {
+      //     notEmpty: 'User type is required',
+      //     notNull: 'User type is required',
+      //     isIn: {
+      //       args: [['organizer', 'participant']],
+      //       msg: 'User type must be one of : participant or organizer'
+      //     }
+      //   }
+      // },
       address: {
         type: DataTypes.TEXT,
         allowNull: false,
