@@ -6,7 +6,7 @@ exports.authentication = async (req, res, next) => {
     const { access_token } = req.headers
     if (!access_token) throw { code: 400, message: 'Invalid token' }
     const payload = decodeToken(access_token)
-    const user = await User.findByPk(payload.userId)
+    const user = await User.findByPk(payload.id)
     if (!user) throw { code: 404, message: 'User not found' }
     else req.user = { ...payload }
     next()
@@ -46,13 +46,14 @@ exports.organizerAuthorization = async (req, res, next) => {
   try {
     const eventId = +req.params.eventId
     const event = await Event.findByPk(eventId, {
-      include: [organizer]
+      include: [organizer],
     })
     if (!event) throw { code: 404, message: 'Event not found' }
     if (event)
       if (req.user.id == event.organizerId) next()
       else throw { code: 403, message: 'Unauthorized' }
   } catch (error) {
+    console.error(error)
     next(error)
   }
 }
@@ -66,4 +67,3 @@ exports.organizerAuthorization = async (req, res, next) => {
 //     next(error)
 //   }
 // }
-

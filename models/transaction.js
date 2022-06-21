@@ -17,14 +17,27 @@ module.exports = (sequelize, DataTypes) => {
     {
       userId: DataTypes.INTEGER,
       eventId: DataTypes.INTEGER,
-      ticketClass: DataTypes.STRING,
+      gold: DataTypes.INTEGER,
+      platinum: DataTypes.INTEGER,
+      silver: DataTypes.INTEGER,
       nominal: DataTypes.INTEGER,
-      paymentStatus: DataTypes.STRING
+      paymentStatus: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: 'transaction'
+      modelName: 'transaction',
     }
   )
+  // transaction.afterCreate(async (data, options) => {
+  //   const quota = await sequelize.models.fullfiledQuota.findOne({
+  //     where: { event_id: data.eventId },
+  //   })
+  //   quota.set({
+  //     gold: quota.gold + options.gold,
+  //     platinum: quota.platinum + options.platinum,
+  //     silver: quota.silver + options.silver,
+  //   })
+  //   await quota.save()
+  // })
   return transaction
 }
