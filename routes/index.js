@@ -5,7 +5,7 @@ const eventRoute = require('./eventRoute')
 const checkoutRoute = require('./checkoutRoute')
 const { errHandler } = require('./../middleware/errorHandler')
 
-router.get('/', (req, res) => res.send('ok'))
+router.get('/', (req, res) => res.status(200).send('ok'))
 router.use('/user', userRoute)
 router.use('/event', eventRoute)
 router.use('/event-organizer', eventOrganizerRoute)

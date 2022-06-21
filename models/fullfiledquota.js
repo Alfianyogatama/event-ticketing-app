@@ -20,14 +20,13 @@ module.exports = (sequelize, DataTypes) => {
       event_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        validate: { notNull: 'Event id is required' }
-      }
+        validate: { notNull: 'Event id is required' },
+      },
     },
     {
       sequelize,
-      modelName: 'fullfiledQuota'
+      modelName: 'fullfiledQuota',
     }
   )
   return fullfiledQuota
 }
-
