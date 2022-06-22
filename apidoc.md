@@ -8,7 +8,7 @@ My Assets App is an application to manage your assets. This app has :
 &nbsp;
 
 ## RESTful endpoints
-
+## BASE URL = https://event-ticketting-app.herokuapp.com
 ### /user
 
 > User register
