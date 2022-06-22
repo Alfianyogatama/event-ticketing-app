@@ -12,7 +12,6 @@ exports.createInvoice = async (
   ammounts
 ) => {
   try {
-    console.log({ transactionId, userEmail, eventName, ammounts })
     const invoice = await this.XenditInvoice.createInvoice({
       externalID: `INVOICE_PAYMENT_${transactionId}`,
       payerEmail: userEmail,
@@ -22,7 +21,7 @@ exports.createInvoice = async (
     })
     return invoice
   } catch (err) {
-    console.error(err)
+    throw err
   }
 }
 
